@@ -15,7 +15,7 @@ class HipchatNotifier {
     public function __construct() {
 
         if (empty(env('HIPCHAT_DOMAIN')) || empty(env('HIPCHAT_ROOM_ID')) || empty(env('HIPCHAT_TOKEN'))) {
-            throw new Exception("Invalid configuration");
+            throw new \Exception("Invalid configuration");
         }
 
         $this->domain = env('HIPCHAT_DOMAIN');
