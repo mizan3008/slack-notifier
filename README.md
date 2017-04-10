@@ -43,12 +43,14 @@ Without .env
 Initialize hipchat notifier
 ```
 //the last param bot-name is optional, default bot name is HIP-BOT
+
 $hipchatNotifier = new \HipchatNotifier\HipchatNotifier('YOUR-DOMAIN','YOUR-ROOM-ID','YOUR-ROOM-TOKEN', 'BOT-NAME');
 ```
 
-//send error notification to your hipchat room
+Send error notification to your hipchat room
 ```
 //you can pass your color as second param (red or green or yellow) default is red
+
 $hipchatNotifier->notifyError('YOUR ERROR MESSAGE');
 
 //or
@@ -56,9 +58,10 @@ $hipchatNotifier->notifyError('YOUR ERROR MESSAGE');
 $hipchatNotifier->notifyError('YOUR ERROR MESSAGE', 'green');
 ```
 
-//send success or info notification to your hipchat room
+Send success or info notification to your hipchat room
 ```
 //you can pass your color as second param (red or green or yellow) default is green
+
 $hipchatNotifier->notifyInfo('YOUR MESSAGE');
 
 //or
@@ -66,9 +69,10 @@ $hipchatNotifier->notifyInfo('YOUR MESSAGE');
 $hipchatNotifier->notifyInfo('YOUR MESSAGE', 'red');
 ```
 
-//send exception notification to your hipchat room
+Send exception notification to your hipchat room
 ```
 //you can pass your color as second param (red or green or yellow) default is red
+
 try{
     #Your code...
 }catch(\Exception $ex){
