@@ -1,0 +1,24 @@
+{
+    "name": "mizanur/hipchat-notifier",
+    "type": "library",
+    "description": "Hipchat Notifier for PHP",
+    "keywords": ["hipchat-notifier-php"],
+    "homepage": "https://github.com/mizanur-rahman/hipchat-notifier.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mizanur Rahman",
+			"email" : "mizan3008@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+		"ext-curl": "*"
+    },
+    "autoload": {
+        "psr-0": { "HipchatNotifier": "src/" }
+    },
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
