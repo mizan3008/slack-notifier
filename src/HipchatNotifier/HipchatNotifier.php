@@ -2,6 +2,8 @@
 
 namespace HipchatNotifier;
 
+define('BOT_NAME', 'HIP-BOT');
+
 class HipchatNotifier {
 
     // property declaration
@@ -16,14 +18,20 @@ class HipchatNotifier {
 
         if (empty($domain)) {
             $this->domain = !empty(env('HIPCHAT_DOMAIN')) ? env('HIPCHAT_DOMAIN') : "";
+        }else{
+            $this->domain = $domain;
         }
 
         if (empty($room)) {
             $this->room = !empty(env('HIPCHAT_ROOM_ID')) ? env('HIPCHAT_ROOM_ID') : "";
+        }else{
+            $this->room = $room;
         }
 
         if (empty($token)) {
             $this->token = !empty(env('HIPCHAT_TOKEN')) ? env('HIPCHAT_TOKEN') : "";
+        }else{
+            $this->token = $token;
         }
 
 
@@ -32,7 +40,7 @@ class HipchatNotifier {
         }
 
         if (empty($botName)) {
-            $this->botName = !empty(env('HIPCHAT_BOT_NAME')) ? env('HIPCHAT_BOT_NAME') : "HIP-BOT";
+            $this->botName = !empty(env('HIPCHAT_BOT_NAME')) ? env('HIPCHAT_BOT_NAME') : BOT_NAME;
         }
 
         //building url
@@ -50,7 +58,7 @@ class HipchatNotifier {
             ];
 
             $data = [
-                'from' => env('HIPCHAT_BOT_NAME'),
+                'from' => $this->botName,
                 'color' => $color,
                 'message' => json_encode($error),
                 'notify' => true,
@@ -64,7 +72,7 @@ class HipchatNotifier {
     public function notifyError($message, $color = 'red') {
 
         $data = [
-            'from' => env('HIPCHAT_BOT_NAME'),
+            'from' => $this->botName,
             'color' => $color,
             'message' => $message,
             'notify' => true,
@@ -77,7 +85,7 @@ class HipchatNotifier {
     public function notifyInfo($message, $color = 'green') {
 
         $data = [
-            'from' => env('HIPCHAT_BOT_NAME'),
+            'from' => $this->botName,
             'color' => $color,
             'message' => $message,
             'notify' => true,
