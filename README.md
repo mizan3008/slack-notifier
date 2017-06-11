@@ -1,7 +1,7 @@
 Slack Notifier
 ================
 
-Super-simple, minimum abstraction SlackNotifier v2, in PHP.
+Super-simple, minimum abstraction SlackNotifier v1, in PHP.
 
 Requires PHP 5.3 and a pulse.
 
