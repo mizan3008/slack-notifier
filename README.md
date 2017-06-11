@@ -1,21 +1,21 @@
-Hipchat Notifier
+Slack Notifier
 ================
 
-Super-simple, minimum abstraction HipchatNotifier v2, in PHP.
+Super-simple, minimum abstraction SlackNotifier v2, in PHP.
 
 Requires PHP 5.3 and a pulse.
 
 Installation
 ------------
 
-You can install the hipchat-notifier using Composer:
+You can install the slack-notifier using Composer:
 
 ```
-composer require mizanur/hipchat-notifier
+composer require mizanur/slack-notifier
 ```
 or
 ```
-composer require mizanur/hipchat-notifier
+composer require mizanur/slack-notifier
 ```
 
 HOW TO USER
@@ -27,63 +27,38 @@ With .env
 
 We need setup some configuration variable in .env
 ```
-HIPCHAT_DOMAIN=https://example.hipchat.com
-HIPCHAT_TOKEN=your-room-token
-HIPCHAT_ROOM_ID=your-room-id
-HIPCHAT_BOT_NAME=your-bot-name (this one is optional, default bot name is HIP-BOT)
+SLACK-WEBHOOK=https://hooks.slack.com/services/---/---/---
 ```
 
-Initialize hipchat notifier
+Initialize slack notifier
 ```
-$hipchatNotifier = new \HipchatNotifier\HipchatNotifier();
+$slackNotifier = new \SlackNotifier\SlackNotifier();
 ```
 
 Without .env
 
-Initialize hipchat notifier
-```
-//the last param bot-name is optional, default bot name is HIP-BOT
-
-$hipchatNotifier = new \HipchatNotifier\HipchatNotifier('YOUR-DOMAIN','YOUR-ROOM-ID','YOUR-ROOM-TOKEN', 'BOT-NAME');
+Initialize slack notifier
 ```
 
-Send error notification to your hipchat room
-```
-//you can pass your color as second param (red or green or yellow) default is red
-
-$hipchatNotifier->notifyError('YOUR ERROR MESSAGE');
-
-//or
-
-$hipchatNotifier->notifyError('YOUR ERROR MESSAGE', 'green');
+$slackNotifier = new \SlackNotifier\SlackNotifier('SLACK-WEBHOOK');
 ```
 
-Send success or info notification to your hipchat room
+Send error notification to your slack channel
 ```
-//you can pass your color as second param (red or green or yellow) default is green
-
-$hipchatNotifier->notifyInfo('YOUR MESSAGE');
-
-//or
-
-$hipchatNotifier->notifyInfo('YOUR MESSAGE', 'red');
+$slackNotifier->notifyError('YOUR ERROR MESSAGE');
 ```
 
-Send exception notification to your hipchat room
+Send success or info notification to your slack channel
 ```
-//you can pass your color as second param (red or green or yellow) default is red
+$slackNotifier->notifyInfo('YOUR MESSAGE');
+```
+
+Send exception notification to your slack channel
+```
 
 try{
     #Your code...
 }catch(\Exception $ex){
-    $hipchatNotifier->notifyException($ex);
-}
-
-//or
-
-try{
-    #Your code...
-}catch(\Exception $ex){
-    $hipchatNotifier->notifyException($ex, 'yellow');
+    $slackNotifier->notifyException($ex);
 }
 ```
