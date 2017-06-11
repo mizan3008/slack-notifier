@@ -15,7 +15,7 @@ composer require mizanur/slack-notifier
 ```
 or
 ```
-composer require mizanur/slack-notifier
+php composer.phar require mizanur/slack-notifier
 ```
 
 HOW TO USER
