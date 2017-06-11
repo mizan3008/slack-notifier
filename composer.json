@@ -1,9 +1,9 @@
 {
-    "name": "mizanur/hipchat-notifier",
+    "name": "mizanur/slack-notifier",
     "type": "library",
-    "description": "Hipchat Notifier for PHP",
-    "keywords": ["hipchat-notifier-php"],
-    "homepage": "https://github.com/mizanur-rahman/hipchat-notifier.git",
+    "description": "Slack Notifier for PHP",
+    "keywords": ["slack-notifier-php"],
+    "homepage": "https://github.com/mizanur-rahman/slack-notifier.git",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,7 @@
 		"ext-curl": "*"
     },
     "autoload": {
-        "psr-0": { "HipchatNotifier": "src/" }
+        "psr-0": { "SlackNotifier": "src/" }
     },
 	"minimum-stability": "dev",
 	"prefer-stable": true
