@@ -8,6 +8,8 @@ class SlackNotifier {
     private $slackWebhook;
     private $appName;
     private $appEnv;
+    private $protocol;
+    private $color;
 
     public function __construct($slackWebhook = "") {
 
@@ -23,6 +25,14 @@ class SlackNotifier {
 
         $this->appEnv = !empty(env('APP_ENV')) ? strtoupper(env('APP_ENV')) : 'APP ENV NOT DEFINED';
         $this->appName = !empty(env('APP_NAME')) ? env('APP_NAME') : 'APP NAME NOT DEFINED';
+        
+        if (empty($_SERVER["HTTPS"]) || $_SERVER['HTTPS'] == 'off' || filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP)) {
+            $this->protocol = "http://";
+        } else {
+            $this->protocol = "https://";
+        }
+        
+        $this->color = $this->appEnv == 'PRODUCTION' ? '#D00000' : '#FD9149';
     }
 
     public function notifyException($exception) {
@@ -41,10 +51,14 @@ class SlackNotifier {
                             [
                                 'title' => 'Location',
                                 'value' => $exception->getFile() . ':' . $exception->getLine()
+                            ],
+                            [
+                                'title' => 'Requested Url',
+                                'value' => $this->protocol . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]
                             ]
                         ],
                         'mrkdwn_in' => ['text', 'pretext'],
-                        'color' => '#FD9149',
+                        'color' => $this->color,
                     ]
                 ]
             ];
