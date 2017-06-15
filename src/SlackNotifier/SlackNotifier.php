@@ -42,7 +42,7 @@ class SlackNotifier {
             $data = [
                 'attachments' => [
                     [
-                        'pretext' => '*Event* in *' . $this->appEnv . '* from ' . $this->appName,
+                        'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
                         'fields' => [
                             [
                                 'title' => 'Error',
@@ -72,7 +72,7 @@ class SlackNotifier {
         $data = [
             'attachments' => [
                 [
-                    'pretext' => '*Event* in *' . $this->appEnv . '* from ' . $this->appName,
+                    'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
                     'text' => $message,
                     'mrkdwn_in' => ['text', 'pretext'],
                     'color' => '#FD9149',
@@ -88,7 +88,7 @@ class SlackNotifier {
         $data = [
             'attachments' => [
                 [
-                    'pretext' => '*Event* in *' . $this->appEnv . '* from ' . $this->appName,
+                    'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
                     'text' => $message,
                     'mrkdwn_in' => ['text', 'pretext'],
                     'color' => '#36A64F',
