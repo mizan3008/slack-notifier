@@ -67,7 +67,7 @@ class SlackNotifier {
         }
     }
 
-    public function notifyError($message) {
+    public function notifyError($message, $pretext=true) {
 
         $data = [
             'attachments' => [
@@ -79,23 +79,30 @@ class SlackNotifier {
                 ]
             ]
         ];
+        
+        if($pretext){
+            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`';
+        }
 
         $this->curl($data);
     }
 
-    public function notifyInfo($message) {
+    public function notifyInfo($message, $pretext=true) {
 
         $data = [
             'attachments' => [
                 [
-                    'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
                     'text' => $message,
                     'mrkdwn_in' => ['text', 'pretext'],
                     'color' => '#36A64F',
                 ]
             ]
         ];
-
+        
+        if($pretext){
+            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`';
+        }
+        
         $this->curl($data);
     }
 
