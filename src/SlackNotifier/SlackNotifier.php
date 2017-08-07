@@ -42,7 +42,12 @@ class SlackNotifier {
             $data = [
                 'attachments' => [
                     [
-                        'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
+                        'attachment_type' => 'default',
+                        'fallback' => $this->appName.' - Error',
+                        'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName . '`',
+                        'mrkdwn_in' => ['text', 'pretext'],
+                        'color' => $this->color,
+                        'callback_id' => time(),                        
                         'fields' => [
                             [
                                 'title' => 'Error',
@@ -57,8 +62,20 @@ class SlackNotifier {
                                 'value' => $this->protocol . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]
                             ]
                         ],
-                        'mrkdwn_in' => ['text', 'pretext'],
-                        'color' => $this->color,
+                        'actions' => [
+                            [
+                                "name" => "fixed",
+                                "text" => "Mark as fixed",
+                                "type" => "button",
+                                "value" => "fixed"
+                            ],
+                            [
+                                "name" => "ignore",
+                                "text" => "Ignore",
+                                "type" => "button",
+                                "value" => "ignore"
+                            ]
+                        ]
                     ]
                 ]
             ];
