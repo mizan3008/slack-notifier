@@ -2,6 +2,8 @@
 
 namespace SlackNotifier;
 
+use Auth;
+
 class SlackNotifier {
 
     // property declaration
@@ -25,14 +27,16 @@ class SlackNotifier {
 
         $this->appEnv = !empty(env('APP_ENV')) ? strtoupper(env('APP_ENV')) : 'APP ENV NOT DEFINED';
         $this->appName = !empty(env('APP_NAME')) ? env('APP_NAME') : 'APP NAME NOT DEFINED';
-        
+
         if (empty($_SERVER["HTTPS"]) || $_SERVER['HTTPS'] == 'off' || filter_var($_SERVER['HTTP_HOST'], FILTER_VALIDATE_IP)) {
             $this->protocol = "http://";
         } else {
             $this->protocol = "https://";
         }
-        
+
         $this->color = $this->appEnv == 'PRODUCTION' ? '#D00000' : '#FD9149';
+
+        $this->actionButton = env('SLACK_ACTION_BUTTON', false);
     }
 
     public function notifyException($exception) {
@@ -43,11 +47,11 @@ class SlackNotifier {
                 'attachments' => [
                     [
                         'attachment_type' => 'default',
-                        'fallback' => $this->appName.' - Error',
+                        'fallback' => $this->appName . ' - Error',
                         'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName . '`',
                         'mrkdwn_in' => ['text', 'pretext'],
                         'color' => $this->color,
-                        'callback_id' => time(),                        
+                        'callback_id' => time(),
                         'fields' => [
                             [
                                 'title' => 'Error',
@@ -61,50 +65,72 @@ class SlackNotifier {
                                 'title' => 'Requested Url',
                                 'value' => $this->protocol . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"]
                             ]
-                        ],
-                        'actions' => [
-                            [
-                                "name" => "fixed",
-                                "text" => "Mark as fixed",
-                                "type" => "button",
-                                "value" => "fixed"
-                            ],
-                            [
-                                "name" => "ignore",
-                                "text" => "Ignore",
-                                "type" => "button",
-                                "value" => "ignore"
-                            ]
                         ]
                     ]
                 ]
             ];
 
+            //if user loggedin, appending user payload
+            if (Auth::check()) {
+
+                $user = Auth::user();
+
+                $userData = [
+                    'id' => $user->id,
+                    'username' => !empty($user->username) ? $user->username : '',
+                    'email' => !empty($user->email) ? $user->email : '',
+                    'role' => !empty($user->role->title) ? $user->role->title : ''
+                ];
+
+                $data['attachments'][0]['fields'][3] = [
+                    'title' => 'User Payload',
+                    'value' => json_encode($userData)
+                ];
+            }
+
+            //controling action button
+            if ($this->actionButton == true) {
+                $data['attachments'][0]['actions'] = [
+                    [
+                        "name" => "fixed",
+                        "text" => "Mark as fixed",
+                        "type" => "button",
+                        "value" => "fixed"
+                    ],
+                    [
+                        "name" => "ignore",
+                        "text" => "Ignore",
+                        "type" => "button",
+                        "value" => "ignore"
+                    ]
+                ];
+            }
+
             $this->curl($data);
         }
     }
 
-    public function notifyError($message, $pretext=true) {
+    public function notifyError($message, $pretext = true) {
 
         $data = [
             'attachments' => [
                 [
-                    'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`',
+                    'pretext' => '*Event* in `' . $this->appEnv . '` from `' . $this->appName . '`',
                     'text' => $message,
                     'mrkdwn_in' => ['text', 'pretext'],
                     'color' => '#FD9149',
                 ]
             ]
         ];
-        
-        if($pretext){
-            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`';
+
+        if ($pretext) {
+            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName . '`';
         }
 
         $this->curl($data);
     }
 
-    public function notifyInfo($message, $pretext=true) {
+    public function notifyInfo($message, $pretext = true) {
 
         $data = [
             'attachments' => [
@@ -115,11 +141,11 @@ class SlackNotifier {
                 ]
             ]
         ];
-        
-        if($pretext){
-            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName.'`';
+
+        if ($pretext) {
+            $data['attachments'][0]['pretext'] = '*Event* in `' . $this->appEnv . '` from `' . $this->appName . '`';
         }
-        
+
         $this->curl($data);
     }
 
