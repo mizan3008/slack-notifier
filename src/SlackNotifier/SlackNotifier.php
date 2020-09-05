@@ -153,6 +153,8 @@ class SlackNotifier {
         $ch = curl_init();
         $headers = ['Content-type: application/json'];
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_URL, $this->slackWebhook);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
